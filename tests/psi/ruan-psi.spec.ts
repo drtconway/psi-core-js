@@ -12,7 +12,7 @@ describe("basic private set intersection cardinality", async () => {
     const R = new RuanPSI(new Set<string>());
     const c = R.prepare(pub, new Set<string>());
     const r = R.cardinality(pub, new Set<string>(), c);
-    const n = PaillierCryptosystem.dec(priv, r);
+    const n = PaillierCryptosystem.decrypt(priv, r);
     expect(n).to.eql(0n);
   });
   it("small set", async () => {
@@ -22,42 +22,42 @@ describe("basic private set intersection cardinality", async () => {
     if (true) {
       const c = R.prepare(pub, new Set<string>());
       const r = R.cardinality(pub, new Set<string>(), c);
-      const n = PaillierCryptosystem.dec(priv, r);
+      const n = PaillierCryptosystem.decrypt(priv, r);
       expect(n).to.eql(0n);
     }
 
     if (true) {
       const c = R.prepare(pub, new Set<string>(["foo"]));
       const r = R.cardinality(pub, new Set<string>(), c);
-      const n = PaillierCryptosystem.dec(priv, r);
+      const n = PaillierCryptosystem.decrypt(priv, r);
       expect(n).to.eql(0n);
     }
 
     if (true) {
       const c = R.prepare(pub, new Set<string>());
       const r = R.cardinality(pub, new Set<string>(["foo"]), c);
-      const n = PaillierCryptosystem.dec(priv, r);
+      const n = PaillierCryptosystem.decrypt(priv, r);
       expect(n).to.eql(0n);
     }
 
     if (true) {
       const c = R.prepare(pub, new Set<string>(["foo"]));
       const r = R.cardinality(pub, new Set<string>(["foo"]), c);
-      const n = PaillierCryptosystem.dec(priv, r);
+      const n = PaillierCryptosystem.decrypt(priv, r);
       expect(n).to.eql(1n);
     }
 
     if (true) {
       const c = R.prepare(pub, new Set<string>(["foo", "baz", "qux"]));
       const r = R.cardinality(pub, new Set<string>(["foo", "qux"]), c);
-      const n = PaillierCryptosystem.dec(priv, r);
+      const n = PaillierCryptosystem.decrypt(priv, r);
       expect(n).to.eql(2n);
     }
 
     if (true) {
       const c = R.prepare(pub, new Set<string>(["foo", "qux"]));
       const r = R.cardinality(pub, new Set<string>(["foo", "baz", "qux"]), c);
-      const n = PaillierCryptosystem.dec(priv, r);
+      const n = PaillierCryptosystem.decrypt(priv, r);
       expect(n).to.eql(2n);
     }
   });
@@ -335,7 +335,7 @@ describe("basic private set intersection cardinality", async () => {
       const now1 = performance.now();
       const r = R.cardinality(pub, new Set<string>(u), c);
       const now2 = performance.now();
-      const j = PaillierCryptosystem.dec(priv, r);
+      const j = PaillierCryptosystem.decrypt(priv, r);
       const now3 = performance.now();
       expect(j).to.eql(BigInt(v));
     }

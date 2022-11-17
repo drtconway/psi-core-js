@@ -68,17 +68,17 @@ export class PaillierCryptosystem {
     return { pub, priv };
   }
 
-  static enc(pub: PaillierPublicKey, m: bigint): PaillierEncryptum {
+  static encrypt(pub: PaillierPublicKey, m: bigint): PaillierEncryptum {
     const r: bigint = randBetween(pub.n);
     return { value: (modPowX(pub.g, m, pub.nn) * modPowX(r, pub.n, pub.nn)) % pub.nn };
   }
 
-  static async encAsync(pub: PaillierPublicKey, m: bigint): Promise<PaillierEncryptum> {
+  static async encryptAsync(pub: PaillierPublicKey, m: bigint): Promise<PaillierEncryptum> {
     const r: bigint = randBetween(pub.n);
     return { value: (modPowX(pub.g, m, pub.nn) * modPowX(r, pub.n, pub.nn)) % pub.nn };
   }
 
-  static dec(priv: PaillierPrivateKey, c: PaillierEncryptum): bigint {
+  static decrypt(priv: PaillierPrivateKey, c: PaillierEncryptum): bigint {
     return ((modPow(c.value, priv.lambda, priv.nn) / priv.n) * priv.mu) % priv.n;
   }
 
@@ -88,7 +88,7 @@ export class PaillierCryptosystem {
       y = BigInt(y);
     }
     if (typeof y == "bigint") {
-      v = PaillierCryptosystem.enc(pub, y);
+      v = PaillierCryptosystem.encrypt(pub, y);
     } else {
       v = y;
     }

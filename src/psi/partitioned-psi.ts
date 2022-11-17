@@ -33,7 +33,7 @@ export class PartitionedPSI {
       const vector: PaillierEncryptum[] = [];
       for (let j = 0n; j < N; ++j) {
         const bit = (w >> j) & 1n;
-        vector.push(PaillierCryptosystem.enc(pub, bit));
+        vector.push(PaillierCryptosystem.encrypt(pub, bit));
       }
       res.partitions.push(p);
       res.vectors.push(vector);
@@ -43,7 +43,7 @@ export class PartitionedPSI {
 
   cardinality(pub: PaillierPublicKey, other: PartitionedPSIEncryptum, terms: readonly string[]): PaillierEncryptum {
     const items = this.partition.encode(terms);
-    let res: PaillierEncryptum = PaillierCryptosystem.enc(pub, 0n);
+    let res: PaillierEncryptum = PaillierCryptosystem.encrypt(pub, 0n);
     let selfPartitionNum: number = 0;
     let otherPartitionNum: number = 0;
     while (selfPartitionNum < items.partitions.length && otherPartitionNum < other.partitions.length) {
@@ -94,7 +94,7 @@ export class PartitionedPSI {
       for (let i = 0; i < this.index[p].length; ++i) {
         for (const label of this.index[p][i]) {
           if (!(label in res)) {
-            res[label] = PaillierCryptosystem.enc(pub, 0n);
+            res[label] = PaillierCryptosystem.encrypt(pub, 0n);
           }
           res[label] = PaillierCryptosystem.add(pub, res[label], vec[i]);
         }

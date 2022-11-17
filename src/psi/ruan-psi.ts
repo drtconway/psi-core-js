@@ -27,7 +27,7 @@ export class RuanPSI {
         const res: PaillierEncryptum[] = [];
         for (let i = 0; i < this.terms.length; ++i) {
             const b_i : bigint = (terms.has(this.terms[i]) ? 1n : 0n);
-            res.push(PaillierCryptosystem.enc(pub, b_i));
+            res.push(PaillierCryptosystem.encrypt(pub, b_i));
         }
         return res;
     }
@@ -41,7 +41,7 @@ export class RuanPSI {
         if (other.length != this.terms.length) {
             throw new Error(`other set has a domain of size ${other.length} which is different to this set with domain of size ${this.terms.length}`);
         }
-        let res = PaillierCryptosystem.enc(pub, 0n);
+        let res = PaillierCryptosystem.encrypt(pub, 0n);
         for (let i = 0; i < this.terms.length; ++i) {
             const b_i : bigint = (terms.has(this.terms[i]) ? 1n : 0n);
             const t = PaillierCryptosystem.mul(pub, other[i], b_i);

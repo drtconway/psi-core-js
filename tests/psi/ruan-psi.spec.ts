@@ -60,6 +60,58 @@ describe("basic private set intersection cardinality", async () => {
       const n = PaillierCryptosystem.decrypt(priv, r);
       expect(n).to.eql(2n);
     }
+
+    if (true) {
+      expect(() => {
+        const terms = new Set<string>(["fox"]);
+        const c = R.prepare(pub, terms);
+      }).to.throw(Error, 'term "fox" not in vocabulary.');
+    }
+
+    if (true) {
+      const c = R.prepare(pub, new Set<string>(["foo", "qux"]));
+      expect(() => {
+        const r = R.cardinality(pub, new Set<string>(["fox"]), c);
+      }).to.throw(Error, 'term "fox" not in vocabulary.');
+    }
+
+    if (true) {
+      const c = R.prepare(pub, new Set<string>(["foo", "qux"]));
+      c.pop();
+      expect(() => {
+        const r = R.cardinality(pub, new Set<string>(["foo"]), c);
+      }).to.throw(Error, '"other" set has a domain of size 3 which is different to this set with domain of size 4');
+    }
+  });
+
+  it("small set intersection", async () => {
+    const { pub, priv } = await PaillierCryptosystem.keyGen(256);
+    const R = new RuanPSI(new Set<string>(["foo", "bar", "baz", "qux"]));
+
+    if (true) {
+      const c = R.prepare(pub, new Set<string>(["foo", "baz", "qux"]));
+      const r = R.intersect(pub, new Set<string>(["foo", "qux"]), c);
+      expect(r.length).to.eql(4);
+      expect(PaillierCryptosystem.decrypt(priv, r[0])).to.eql(0n);
+      expect(PaillierCryptosystem.decrypt(priv, r[1])).to.eql(0n);
+      expect(PaillierCryptosystem.decrypt(priv, r[2])).to.eql(1n);
+      expect(PaillierCryptosystem.decrypt(priv, r[3])).to.eql(1n);
+    }
+
+    if (true) {
+      const c = R.prepare(pub, new Set<string>(["foo", "qux"]));
+      expect(() => {
+        const r = R.intersect(pub, new Set<string>(["fox"]), c);
+      }).to.throw(Error, 'term "fox" not in vocabulary.');
+    }
+
+    if (true) {
+      const c = R.prepare(pub, new Set<string>(["foo", "qux"]));
+      c.pop();
+      expect(() => {
+        const r = R.intersect(pub, new Set<string>(["foo"]), c);
+      }).to.throw(Error, '"other" set has a domain of size 3 which is different to this set with domain of size 4');
+    }
   });
 
   it("larger set", async () => {

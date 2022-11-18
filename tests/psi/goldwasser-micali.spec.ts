@@ -19,6 +19,7 @@ describe("tests on jacobi", () => {
     expect(jacobi(4n, 17n)).to.eql(1n);
     expect(jacobi(5n, 17n)).to.eql(-1n);
     expect(jacobi(6n, 17n)).to.eql(-1n);
+    expect(jacobi(17n, 17n)).to.eql(0n);
   });
 });
 
